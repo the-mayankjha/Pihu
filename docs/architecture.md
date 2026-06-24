@@ -319,3 +319,5 @@ As of the current iteration, we are successfully laying the foundation defined i
 5. **PIHU OS Desktop (`apps/pihu-os`)**:
    - A Tauri V2 Application containing a Vite + React frontend. 
    - It seamlessly renders a hardcoded default workspace tree to demonstrate the horizontal split rendering behavior (e.g., separating an FKVim node and an FKTerm node).
+   
+   ![PIHU OS Desktop](https://INSERT_YOUR_CLOUD_IMAGE_URL_HERE)
