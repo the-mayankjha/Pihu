@@ -19,8 +19,9 @@ pub fn run() {
       let open_i = MenuItem::with_id(app, "open", "Open", true, None::<&str>)?;
       let voice_i = MenuItem::with_id(app, "voice", "Voice Assist", true, None::<&str>)?;
       let settings_i = MenuItem::with_id(app, "settings", "Settings", true, None::<&str>)?;
+      let reload_i = MenuItem::with_id(app, "reload", "Reload", true, None::<&str>)?;
       let quit_i = MenuItem::with_id(app, "quit", "Quit", true, None::<&str>)?;
-      let menu = Menu::with_items(app, &[&open_i, &voice_i, &settings_i, &quit_i])?;
+      let menu = Menu::with_items(app, &[&open_i, &voice_i, &settings_i, &reload_i, &quit_i])?;
 
       let _tray = TrayIconBuilder::new()
         .icon(app.default_window_icon().unwrap().clone())
@@ -48,6 +49,11 @@ pub fn run() {
                     let _ = window.show();
                     let _ = window.set_focus();
                     let _ = window.emit("open-voice", ());
+                }
+            }
+            "reload" => {
+                if let Some(window) = app.get_webview_window("main") {
+                    let _ = window.eval("window.location.reload()");
                 }
             }
             _ => {}

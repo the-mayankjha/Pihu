@@ -35,12 +35,8 @@ export function Dock() {
     { icon: <TerminalIcon style={imgStyle} />, name: 'Terminal', onClick: () => {} },
     { icon: <img src="/icons/ytmusic.svg" style={imgStyle} alt="YouTube Music" />, name: 'Music', onClick: () => {} },
     { icon: <SettingsIcon style={imgStyle} />, name: 'Settings', onClick: () => {
-      // If we have an active center panel, open settings there, otherwise just fallback
-      if (activePanelId) {
-        addTab(activePanelId, 'settings');
-      } else {
-        setSettingsOpen(true);
-      }
+      // Add 'settings' tab. LayoutStore will automatically find a panel if activePanelId is null.
+      addTab(activePanelId, 'settings');
     } },
   ];
 

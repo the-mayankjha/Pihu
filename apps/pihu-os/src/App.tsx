@@ -55,7 +55,9 @@ function App() {
   useEffect(() => {
     useThemeStore.getState().init();
     useLayoutStore.getState().initWorkspaces(initialWorkspaces, 'ws-1');
-    useLayoutStore.getState().setActivePanel("editor-1");
+    if (!useLayoutStore.getState().activePanelId) {
+      useLayoutStore.getState().setActivePanel("editor-1");
+    }
     
     kernel.keyManager.startListening();
     return () => {

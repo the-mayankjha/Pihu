@@ -1,4 +1,5 @@
 import { create } from 'zustand';
+import { persist } from 'zustand/middleware';
 import type { LayoutNode, SplitNode, PanelNode, Workspace } from '@pihu/types';
 
 export interface LayoutState {
@@ -15,7 +16,7 @@ export interface LayoutState {
   toggleMaximize: (id?: string) => void;
   splitPanel: (id: string, direction: 'horizontal' | 'vertical') => void;
   navigateFocus: (direction: 'up' | 'down' | 'left' | 'right') => void;
-  addTab: (panelId: string, tabName: string) => void;
+  addTab: (panelId: string | null, tabName: string) => void;
   closeTab: (panelId: string, tabName?: string) => void;
 }
 
@@ -43,16 +44,23 @@ function cloneDeep<T>(obj: T): T {
   return JSON.parse(JSON.stringify(obj));
 }
 
-export const useLayoutStore = create<LayoutState>((set, get) => ({
+export const useLayoutStore = create<LayoutState>()(
+  persist(
+    (set, get) => ({
   workspaces: {},
   activeWorkspaceId: null,
   activePanelId: null,
   maximizedPanelId: null,
 
   initWorkspaces: (workspaces, activeId) => {
-    const wsRecord: Record<string, Workspace> = {};
-    workspaces.forEach(w => wsRecord[w.id] = w);
-    set({ workspaces: wsRecord, activeWorkspaceId: activeId });
+    set((state) => {
+      // If we already have persisted workspaces, don't overwrite them
+      if (Object.keys(state.workspaces).length > 0) return state;
+      
+      const wsRecord: Record<string, Workspace> = {};
+      workspaces.forEach(w => wsRecord[w.id] = w);
+      return { workspaces: wsRecord, activeWorkspaceId: activeId };
+    });
   },
 
   switchWorkspace: (id) => {
@@ -174,10 +182,26 @@ export const useLayoutStore = create<LayoutState>((set, get) => ({
       const workspace = state.workspaces[state.activeWorkspaceId];
       if (!workspace || !workspace.centerLayout) return state;
 
-      const newLayout = cloneDeep(workspace.centerLayout);
-      const found = findParentSplit(newLayout, panelId);
+      let targetId = panelId;
       
-      const targetPanel = found ? found.target as PanelNode : (newLayout.id === panelId && newLayout.type === 'panel' ? newLayout as PanelNode : null);
+      // If no panelId is provided, try to find the first panel in the layout
+      if (!targetId) {
+        let firstPanel: PanelNode | null = null;
+        function findFirst(n: LayoutNode) {
+          if (firstPanel) return;
+          if (n.type === 'panel') firstPanel = n as PanelNode;
+          else if (n.type === 'split') n.children.forEach(findFirst);
+        }
+        findFirst(workspace.centerLayout);
+        if (firstPanel) targetId = firstPanel.id;
+      }
+
+      if (!targetId) return state;
+
+      const newLayout = cloneDeep(workspace.centerLayout);
+      const found = findParentSplit(newLayout, targetId);
+      
+      const targetPanel = found ? found.target as PanelNode : (newLayout.id === targetId && newLayout.type === 'panel' ? newLayout as PanelNode : null);
       
       if (!targetPanel || targetPanel.type !== 'panel') return state;
 
@@ -191,7 +215,7 @@ export const useLayoutStore = create<LayoutState>((set, get) => ({
           ...state.workspaces,
           [state.activeWorkspaceId]: { ...workspace, centerLayout: newLayout }
         },
-        activePanelId: panelId
+        activePanelId: targetId
       };
     });
   },
@@ -271,4 +295,9 @@ export const useLayoutStore = create<LayoutState>((set, get) => ({
       };
     });
   }
-}));
+    }),
+    {
+      name: 'pihu-layout-storage',
+    }
+  )
+);
