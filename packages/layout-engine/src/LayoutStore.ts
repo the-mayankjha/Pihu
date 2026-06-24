@@ -15,6 +15,7 @@ export interface LayoutState {
   toggleMaximize: (id?: string) => void;
   splitPanel: (id: string, direction: 'horizontal' | 'vertical') => void;
   navigateFocus: (direction: 'up' | 'down' | 'left' | 'right') => void;
+  addTab: (panelId: string, tabName: string) => void;
   closeTab: (panelId: string, tabName?: string) => void;
 }
 
@@ -165,6 +166,34 @@ export const useLayoutStore = create<LayoutState>((set, get) => ({
         }
       }
     }
+  },
+
+  addTab: (panelId, tabName) => {
+    set((state) => {
+      if (!state.activeWorkspaceId) return state;
+      const workspace = state.workspaces[state.activeWorkspaceId];
+      if (!workspace || !workspace.centerLayout) return state;
+
+      const newLayout = cloneDeep(workspace.centerLayout);
+      const found = findParentSplit(newLayout, panelId);
+      
+      const targetPanel = found ? found.target as PanelNode : (newLayout.id === panelId && newLayout.type === 'panel' ? newLayout as PanelNode : null);
+      
+      if (!targetPanel || targetPanel.type !== 'panel') return state;
+
+      if (!targetPanel.tabs.includes(tabName)) {
+        targetPanel.tabs.push(tabName);
+      }
+      targetPanel.activeTab = tabName;
+
+      return {
+        workspaces: {
+          ...state.workspaces,
+          [state.activeWorkspaceId]: { ...workspace, centerLayout: newLayout }
+        },
+        activePanelId: panelId
+      };
+    });
   },
 
   closeTab: (panelId, tabName) => {

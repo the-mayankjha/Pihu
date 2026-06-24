@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<style>
+  body {
+    background: url("https://images.unsplash.com/photo-1550684848-fac1c5b4e853?q=80&w=2070&auto=format&fit=crop") no-repeat center center fixed;
+    background-size: cover;
+    height: 100vh;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .glass {
+    width: 336px;
+    height: 96px;
+    background: rgba(0,0,0,0.05);
+    backdrop-filter: url(#liquid-filter) brightness(1.1) saturate(1.5);
+    -webkit-backdrop-filter: url(#liquid-filter) brightness(1.1) saturate(1.5);
+    border-radius: 32px;
+  }
+</style>
+</head>
+<body>
+
+<svg style="position: absolute; width: 0; height: 0; pointer-events: none;" aria-hidden="true">
+  <defs>
+    <filter id="liquid-filter" color-interpolation-filters="sRGB">
+      <feImage x="0" y="0" width="100%" height="100%" result="map" preserveAspectRatio="none" />
+      
+      <feDisplacementMap in="SourceGraphic" in2="map" xChannelSelector="R" yChannelSelector="B" result="dispRed" scale="-180" />
+      <feColorMatrix in="dispRed" type="matrix" values="1 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 1 0" result="red" />
+      
+      <feDisplacementMap in="SourceGraphic" in2="map" xChannelSelector="R" yChannelSelector="B" result="dispGreen" scale="-170" />
+      <feColorMatrix in="dispGreen" type="matrix" values="0 0 0 0 0  0 1 0 0 0  0 0 0 0 0  0 0 0 1 0" result="green" />
+      
+      <feDisplacementMap in="SourceGraphic" in2="map" xChannelSelector="R" yChannelSelector="B" result="dispBlue" scale="-160" />
+      <feColorMatrix in="dispBlue" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 1 0 0  0 0 0 1 0" result="blue" />
+      
+      <feBlend in="red" in2="green" mode="screen" result="rg" />
+      <feBlend in="rg" in2="blue" mode="screen" result="output" />
+      
+      <feGaussianBlur in="output" stdDeviation="0.2" />
+    </filter>
+  </defs>
+</svg>
+
+<div class="glass"></div>
+
+<script>
+  const w = 336;
+  const h = 96;
+  const actualBorder = Math.min(w, h) * 0.035;
+  const svgStr = `
+    <svg viewBox="0 0 ${w} ${h}" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <filter id="blurFilter">
+          <feGaussianBlur stdDeviation="11" />
+        </filter>
+        <linearGradient id="red" x1="100%" y1="0%" x2="0%" y2="0%">
+          <stop offset="0%" stop-color="#000"/>
+          <stop offset="100%" stop-color="red"/>
+        </linearGradient>
+        <linearGradient id="blue" x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" stop-color="#000"/>
+          <stop offset="100%" stop-color="blue"/>
+        </linearGradient>
+      </defs>
+      <rect x="0" y="0" width="${w}" height="${h}" fill="black"></rect>
+      <rect x="0" y="0" width="${w}" height="${h}" rx="32" fill="url(#red)" />
+      <rect x="0" y="0" width="${w}" height="${h}" rx="32" fill="url(#blue)" style="mix-blend-mode: difference" />
+      <rect x="${actualBorder}" y="${actualBorder}" width="${Math.max(0, w - actualBorder * 2)}" height="${Math.max(0, h - actualBorder * 2)}" rx="28" fill="#808080" fill-opacity="0.93" filter="url(#blurFilter)" />
+    </svg>
+  `.replace(/\s+/g, ' ').trim();
+  
+  const b64 = btoa(svgStr);
+  const dataUri = `data:image/svg+xml;base64,${b64}`;
+  
+  document.querySelector('feImage').setAttribute('href', dataUri);
+  document.querySelector('feImage').setAttribute('xlink:href', dataUri);
+</script>
+
+</body>
+</html>

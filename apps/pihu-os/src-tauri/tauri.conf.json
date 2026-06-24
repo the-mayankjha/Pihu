@@ -1,8 +1,8 @@
 {
   "$schema": "../node_modules/@tauri-apps/cli/config.schema.json",
-  "productName": "pihu-os",
+  "productName": "PihuOS",
   "version": "0.1.0",
-  "identifier": "com.tauri.dev",
+  "identifier": "com.mayankjha.pihuos",
   "build": {
     "frontendDist": "../dist",
     "devUrl": "http://localhost:5173",
@@ -29,6 +29,8 @@
   "bundle": {
     "active": true,
     "targets": "all",
+    "publisher": "Mayank Jha",
+    "copyright": "Copyright © Mayank Jha",
     "icon": [
       "icons/32x32.png",
       "icons/128x128.png",

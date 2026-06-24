@@ -61,12 +61,12 @@ export function SettingsPanel() {
       {/* Sidebar */}
       <FrostedCard style={{ width: '240px', padding: '16px', flexDirection: 'column', gap: '8px', overflowY: 'auto', margin: 0, height: '100%', zIndex: 10, borderRadius: 0, borderTop: 'none', borderBottom: 'none', borderLeft: 'none' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '12px', padding: '8px 16px', marginBottom: '16px' }}>
-          <div style={{ width: '32px', height: '32px', background: 'color-mix(in srgb, var(--pihu-primary) 20%, transparent)', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-            <span style={{ fontSize: '18px' }}>🌸</span>
+          <div style={{ width: '32px', height: '32px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <img src="/icons/logo.png" alt="Pihu OS Logo" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
           </div>
           <div>
             <div style={{ fontWeight: 'bold', fontSize: '14px' }}>PIHU OS</div>
-            <div style={{ fontSize: '11px', color: 'color-mix(in srgb, var(--pihu-text) 60%, transparent)' }}>Focus. Flow. Freedom.</div>
+            <div style={{ fontSize: '11px', color: 'color-mix(in srgb, var(--pihu-text) 60%, transparent)' }}>Your AI Powered Workspace</div>
           </div>
         </div>
         
@@ -165,8 +165,7 @@ export function SettingsPanel() {
                   <div style={{ display: 'flex', alignItems: 'center' }}>
                     <Select 
                       options={[
-                        { label: 'Frost', value: 'frost' },
-                        { label: 'Liquid Crystal', value: 'liquid' }
+                        { label: 'Frost', value: 'frost' }
                       ]}
                       value={currentTheme.glass.style || 'frost'}
                       onChange={(value) => updateThemeProperties(t => ({ ...t, glass: { ...t.glass, style: value as 'frost' | 'liquid' } }))}

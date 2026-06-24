@@ -1,4 +1,6 @@
-use tauri::Manager;
+use tauri::{Manager, Emitter};
+use tauri::tray::TrayIconBuilder;
+use tauri::menu::{Menu, MenuItem};
 #[cfg(target_os = "macos")]
 use window_vibrancy::{apply_vibrancy, NSVisualEffectMaterial};
 
@@ -14,11 +16,49 @@ pub fn run() {
         )?;
       }
 
+      let open_i = MenuItem::with_id(app, "open", "Open", true, None::<&str>)?;
+      let voice_i = MenuItem::with_id(app, "voice", "Voice Assist", true, None::<&str>)?;
+      let settings_i = MenuItem::with_id(app, "settings", "Settings", true, None::<&str>)?;
+      let quit_i = MenuItem::with_id(app, "quit", "Quit", true, None::<&str>)?;
+      let menu = Menu::with_items(app, &[&open_i, &voice_i, &settings_i, &quit_i])?;
+
+      let _tray = TrayIconBuilder::new()
+        .icon(app.default_window_icon().unwrap().clone())
+        .menu(&menu)
+        .show_menu_on_left_click(true)
+        .on_menu_event(|app, event| match event.id.as_ref() {
+            "quit" => {
+                app.exit(0);
+            }
+            "open" => {
+                if let Some(window) = app.get_webview_window("main") {
+                    let _ = window.show();
+                    let _ = window.set_focus();
+                }
+            }
+            "settings" => {
+                if let Some(window) = app.get_webview_window("main") {
+                    let _ = window.show();
+                    let _ = window.set_focus();
+                    let _ = window.emit("open-settings", ());
+                }
+            }
+            "voice" => {
+                if let Some(window) = app.get_webview_window("main") {
+                    let _ = window.show();
+                    let _ = window.set_focus();
+                    let _ = window.emit("open-voice", ());
+                }
+            }
+            _ => {}
+        })
+        .build(app)?;
+
       let window = app.get_webview_window("main").unwrap();
 
-      // #[cfg(target_os = "macos")]
-      // apply_vibrancy(&window, NSVisualEffectMaterial::Sidebar, None, None)
-      //   .expect("Unsupported platform! 'apply_vibrancy' is only supported on macOS");
+      #[cfg(target_os = "macos")]
+      apply_vibrancy(&window, NSVisualEffectMaterial::Sidebar, None, None)
+        .expect("Unsupported platform! 'apply_vibrancy' is only supported on macOS");
 
       Ok(())
     })

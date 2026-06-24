@@ -6,6 +6,8 @@
     "@pihu/layout-engine": "workspace:*",
     "@pihu/theme": "workspace:*",
     "@pihu/types": "workspace:*",
+    "@tauri-apps/api": "^2.11.1",
+    "framer-motion": "^12.41.0",
     "react": "^19.2.7",
     "react-dom": "^19.2.7"
   }

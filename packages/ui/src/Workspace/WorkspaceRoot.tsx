@@ -1,13 +1,26 @@
+import React, { useEffect } from 'react';
 import { Group, Panel, Separator } from 'react-resizable-panels';
 import { useLayoutStore } from '@pihu/layout-engine';
 import { LayoutRenderer } from './LayoutRenderer';
 import { SettingsPreviewSidebar } from './SettingsPreviewSidebar';
 import { useSettingsUIStore } from './SettingsUIStore';
 import { LiquidGlassSVGProvider } from './LiquidGlassSVGProvider';
+import { Dock } from '../components';
 
 export function WorkspaceRoot() {
   const { workspaces, activeWorkspaceId } = useLayoutStore();
-  const { isSettingsOpen, activeTab } = useSettingsUIStore();
+  const { isSettingsOpen, activeTab, setSettingsOpen } = useSettingsUIStore();
+
+  useEffect(() => {
+    // Only run in Tauri environment
+    if (window.__TAURI__) {
+      import('@tauri-apps/api/event').then(({ listen }) => {
+        listen('open-settings', () => {
+          setSettingsOpen(true);
+        });
+      });
+    }
+  }, [setSettingsOpen]);
 
   if (!activeWorkspaceId) {
     return <div style={{ color: '#fff', padding: '24px' }}>No Active Workspace</div>;
@@ -58,6 +71,7 @@ export function WorkspaceRoot() {
       </Panel>
 
       </Group>
+      <Dock />
     </>
   );
 }
