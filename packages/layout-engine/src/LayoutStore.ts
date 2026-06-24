@@ -7,6 +7,9 @@ export interface LayoutState {
   activeWorkspaceId: string | null;
   activePanelId: string | null;
   maximizedPanelId: string | null;
+  
+  leftWidgets: string[];
+  rightWidgets: string[];
 
   initWorkspaces: (workspaces: Workspace[], activeId: string) => void;
   switchWorkspace: (id: string) => void;
@@ -18,6 +21,9 @@ export interface LayoutState {
   navigateFocus: (direction: 'up' | 'down' | 'left' | 'right') => void;
   addTab: (panelId: string | null, tabName: string) => void;
   closeTab: (panelId: string, tabName?: string) => void;
+
+  moveWidget: (widgetId: string, target: 'left' | 'right') => void;
+  removeWidget: (widgetId: string) => void;
 }
 
 function findParentSplit(
@@ -51,6 +57,8 @@ export const useLayoutStore = create<LayoutState>()(
   activeWorkspaceId: null,
   activePanelId: null,
   maximizedPanelId: null,
+  leftWidgets: ['orb'],
+  rightWidgets: ['welcome'],
 
   initWorkspaces: (workspaces, activeId) => {
     set((state) => {
@@ -294,10 +302,45 @@ export const useLayoutStore = create<LayoutState>()(
         activePanelId: newActiveId
       };
     });
-  }
+  },
+
+  moveWidget: (widgetId, target) => set((state) => {
+    const newLeft = state.leftWidgets.filter(id => id !== widgetId);
+    const newRight = state.rightWidgets.filter(id => id !== widgetId);
+    
+    if (target === 'left') {
+      if (!newLeft.includes(widgetId)) newLeft.push(widgetId);
+    } else {
+      if (!newRight.includes(widgetId)) newRight.push(widgetId);
+    }
+    
+    return { leftWidgets: newLeft, rightWidgets: newRight };
+  }),
+
+  removeWidget: (widgetId) => set((state) => {
+    return {
+      leftWidgets: state.leftWidgets.filter(id => id !== widgetId),
+      rightWidgets: state.rightWidgets.filter(id => id !== widgetId)
+    };
+  })
     }),
     {
       name: 'pihu-layout-storage',
+      version: 1,
+      migrate: (persistedState: any, version: number) => {
+        if (version === 0) {
+          // Add welcome widget if it doesn't exist anywhere
+          if (!persistedState.rightWidgets) {
+            persistedState.rightWidgets = ['welcome'];
+          } else if (
+            !persistedState.rightWidgets.includes('welcome') && 
+            !(persistedState.leftWidgets && persistedState.leftWidgets.includes('welcome'))
+          ) {
+            persistedState.rightWidgets.push('welcome');
+          }
+        }
+        return persistedState;
+      }
     }
   )
 );

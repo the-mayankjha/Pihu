@@ -32,7 +32,7 @@ const ACCENT_COLORS = [
 ];
 
 export function SettingsPanel() {
-  const { activeTab, setActiveTab, setSettingsOpen } = useSettingsUIStore();
+  const { activeTab, setActiveTab, setSettingsOpen, userName, setUserName } = useSettingsUIStore();
   const [keybindings, setKeybindings] = React.useState<Record<string, string>>({});
   const { themes, activeThemeId, setTheme, updateThemeProperties } = useThemeStore();
   const currentTheme = themes[activeThemeId];
@@ -99,6 +99,37 @@ export function SettingsPanel() {
 
       {/* Main Content */}
       <div style={{ flex: 1, padding: '32px', overflowY: 'auto' }}>
+        
+        {activeTab === 'general' && (
+          <div style={{ maxWidth: '800px', margin: '0 auto' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '32px' }}>
+              <div>
+                <h1 style={{ margin: '0 0 8px 0', fontSize: '24px', fontWeight: 'bold' }}>General</h1>
+                <p style={{ margin: 0, color: 'color-mix(in srgb, var(--pihu-text) 60%, transparent)', fontSize: '14px' }}>Basic settings and user profile.</p>
+              </div>
+            </div>
+
+            <div style={{ marginBottom: '32px' }}>
+              <div style={{ fontSize: '11px', fontWeight: 'bold', letterSpacing: '0.05em', color: 'color-mix(in srgb, var(--pihu-text) 50%, transparent)', marginBottom: '12px' }}>PROFILE</div>
+              <FrostedCard style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                  <div style={{ flex: 1 }}>
+                    <div style={{ fontWeight: 'bold', fontSize: '14px', marginBottom: '4px' }}>Your Name</div>
+                    <div style={{ fontSize: '12px', color: 'color-mix(in srgb, var(--pihu-text) 60%, transparent)' }}>Used for personalized greetings and widgets.</div>
+                  </div>
+                  <div style={{ width: '200px' }}>
+                    <Input 
+                      placeholder="Enter your name" 
+                      value={userName}
+                      onChange={(e) => setUserName(e.target.value)}
+                    />
+                  </div>
+                </div>
+              </FrostedCard>
+            </div>
+          </div>
+        )}
+
         {activeTab === 'appearance' && (
           <div style={{ maxWidth: '800px', margin: '0 auto' }}>
             

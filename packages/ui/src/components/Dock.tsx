@@ -11,7 +11,7 @@ import { useLayoutStore } from '@pihu/layout-engine';
 
 export function Dock() {
   const { themes, activeThemeId } = useThemeStore();
-  const { activePanelId, addTab } = useLayoutStore();
+  const { activePanelId, addTab, moveWidget, leftWidgets, rightWidgets, removeWidget } = useLayoutStore();
   const currentTheme = themes[activeThemeId];
   
   if (!currentTheme) return null;
@@ -31,7 +31,18 @@ export function Dock() {
 
   const apps = [
     { icon: <TaskIcon style={imgStyle} />, name: 'Tasks', onClick: () => {} },
-    { icon: <img src="/icons/widget.png" style={imgStyle} alt="Widgets" />, name: 'Widgets', onClick: () => {} },
+    { icon: <img src="/icons/widget.png" style={imgStyle} alt="Widgets" />, name: 'Widgets', onClick: () => {
+      const hasOrb = leftWidgets.includes('orb') || rightWidgets.includes('orb');
+      const hasWelcome = leftWidgets.includes('welcome') || rightWidgets.includes('welcome');
+      
+      if (hasOrb || hasWelcome) {
+        if (hasOrb) removeWidget('orb');
+        if (hasWelcome) removeWidget('welcome');
+      } else {
+        moveWidget('orb', 'left');
+        moveWidget('welcome', 'right');
+      }
+    } },
     { icon: <TerminalIcon style={imgStyle} />, name: 'Terminal', onClick: () => {} },
     { icon: <img src="/icons/ytmusic.svg" style={imgStyle} alt="YouTube Music" />, name: 'Music', onClick: () => {} },
     { icon: <SettingsIcon style={imgStyle} />, name: 'Settings', onClick: () => {

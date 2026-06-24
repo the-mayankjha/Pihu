@@ -5,11 +5,32 @@ import { LayoutRenderer } from './LayoutRenderer';
 import { SettingsPreviewSidebar } from './SettingsPreviewSidebar';
 import { useSettingsUIStore } from './SettingsUIStore';
 import { LiquidGlassSVGProvider } from './LiquidGlassSVGProvider';
-import { Dock } from '../components';
+import { Dock, OrbWidget, WelcomeWidget } from '../components';
 
 export function WorkspaceRoot() {
-  const { workspaces, activeWorkspaceId } = useLayoutStore();
+  const { workspaces, activeWorkspaceId, leftWidgets, rightWidgets, moveWidget } = useLayoutStore();
   const { isSettingsOpen, activeTab, setSettingsOpen } = useSettingsUIStore();
+
+  const handleDragOver = (e: React.DragEvent) => {
+    e.preventDefault();
+    e.dataTransfer.dropEffect = 'move';
+  };
+
+  const handleDrop = (e: React.DragEvent, target: 'left' | 'right') => {
+    e.preventDefault();
+    const widgetId = e.dataTransfer.getData('widgetId');
+    if (widgetId) {
+      moveWidget(widgetId, target);
+    }
+  };
+
+  const renderWidget = (id: string) => {
+    switch (id) {
+      case 'orb': return <OrbWidget key="orb" />;
+      case 'welcome': return <WelcomeWidget key="welcome" />;
+      default: return null;
+    }
+  };
 
   useEffect(() => {
     // Only run in Tauri environment
@@ -36,14 +57,21 @@ export function WorkspaceRoot() {
       <LiquidGlassSVGProvider />
       <Group orientation="horizontal" style={{ height: '100%', width: '100%', background: 'transparent' }}>
         
-        {/* Left Container */}
-      <Panel className="pihu-glass-level-3" defaultSize="20%" minSize="15%" maxSize="25%" style={{ borderRight: '1px solid var(--pihu-border)' }}>
-        <div style={{ padding: '16px', color: 'var(--pihu-text)' }}>
-          <h3 style={{ margin: '0 0 16px 0', color: 'var(--pihu-primary)', fontSize: '14px' }}>{workspace.name} Navs</h3>
-          <p style={{ fontSize: '12px', opacity: 0.7 }}>Intent: {workspace.intent || 'General purpose'}</p>
-          <div style={{ marginTop: '24px', opacity: 0.5 }}>
-            Left Sidebar Widgets
-          </div>
+      {/* Left Container */}
+      <Panel defaultSize="20%" minSize="15%" maxSize="25%" style={{ background: 'transparent', borderRight: '1px solid var(--pihu-border)' }}>
+        <div 
+          style={{ padding: '16px', color: 'var(--pihu-text)', height: '100%', overflow: 'hidden', boxSizing: 'border-box' }}
+          onDragOver={handleDragOver}
+          onDrop={(e) => handleDrop(e, 'left')}
+        >
+          {leftWidgets.map(renderWidget)}
+          
+          
+          {leftWidgets.length === 0 && (
+            <div style={{ marginTop: '24px', opacity: 0.3, border: '1px dashed var(--pihu-border)', padding: '24px', textAlign: 'center', borderRadius: '12px' }}>
+              Drop Widgets Here
+            </div>
+          )}
         </div>
       </Panel>
       
@@ -57,15 +85,23 @@ export function WorkspaceRoot() {
       <Separator style={{ width: '4px', background: 'transparent', cursor: 'col-resize' }} />
 
       {/* Right Container */}
-      <Panel className="pihu-glass-level-3" defaultSize="15%" minSize="15%" maxSize="20%" style={{ borderLeft: '1px solid var(--pihu-border)' }}>
+      <Panel defaultSize="15%" minSize="15%" maxSize="20%" style={{ background: 'transparent', borderLeft: '1px solid var(--pihu-border)' }}>
         {isSettingsOpen && activeTab === 'appearance' ? (
           <SettingsPreviewSidebar />
         ) : (
-          <div style={{ padding: '16px', color: 'var(--pihu-text)' }}>
-            <h3 style={{ margin: '0 0 16px 0', color: 'var(--pihu-primary)', fontSize: '14px' }}>Tools & Inspect</h3>
-            <div style={{ marginTop: '24px', opacity: 0.5 }}>
-              Right Sidebar Widgets
-            </div>
+          <div 
+            style={{ padding: '16px', color: 'var(--pihu-text)', height: '100%', overflow: 'hidden', boxSizing: 'border-box' }}
+            onDragOver={handleDragOver}
+            onDrop={(e) => handleDrop(e, 'right')}
+          >
+            {rightWidgets.map(renderWidget)}
+            
+            
+            {rightWidgets.length === 0 && (
+              <div style={{ marginTop: '24px', opacity: 0.3, border: '1px dashed var(--pihu-border)', padding: '24px', textAlign: 'center', borderRadius: '12px' }}>
+                Drop Widgets Here
+              </div>
+            )}
           </div>
         )}
       </Panel>
