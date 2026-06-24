@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useThemeStore, wallpapers } from '@pihu/theme';
-import { GlassCard, Slider, Switch, ThemeCard, ColorPickerCircle, Chip, Button, Input, Badge, Tabs, Avatar, AvatarGroup, ProgressBar, ProgressRing, Card, Select, Checkbox } from '../components';
+import { FrostedCard, GlassCard, Slider, Switch, ThemeCard, ColorPickerCircle, Chip, Button, Input, Badge, Tabs, Avatar, AvatarGroup, ProgressBar, ProgressRing, Card, Select, Checkbox } from '../components';
 import { useSettingsUIStore } from './SettingsUIStore';
 import { Settings, Palette, Layout, Home, Monitor, LayoutDashboard, Bell, Volume2, Moon, Shield, Keyboard, Info, Search, Sun, MoonStar, MonitorDot, Image as ImageIcon, Component } from 'lucide-react';
 
@@ -59,7 +59,7 @@ export function SettingsPanel() {
     <div style={{ display: 'flex', height: '100%', width: '100%', background: 'transparent', color: 'var(--pihu-text)', boxSizing: 'border-box' }}>
       
       {/* Sidebar */}
-      <div style={{ width: '240px', padding: '16px', display: 'flex', flexDirection: 'column', gap: '8px', borderRight: '1px solid var(--pihu-border)', overflowY: 'auto' }}>
+      <FrostedCard style={{ width: '240px', padding: '16px', flexDirection: 'column', gap: '8px', overflowY: 'auto', margin: 0, height: '100%', zIndex: 10, borderRadius: 0, borderTop: 'none', borderBottom: 'none', borderLeft: 'none' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '12px', padding: '8px 16px', marginBottom: '16px' }}>
           <div style={{ width: '32px', height: '32px', background: 'color-mix(in srgb, var(--pihu-primary) 20%, transparent)', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
             <span style={{ fontSize: '18px' }}>🌸</span>
@@ -95,7 +95,7 @@ export function SettingsPanel() {
             </div>
           );
         })}
-      </div>
+      </FrostedCard>
 
       {/* Main Content */}
       <div style={{ flex: 1, padding: '32px', overflowY: 'auto' }}>
@@ -118,7 +118,7 @@ export function SettingsPanel() {
             {/* THEME Section */}
             <div style={{ marginBottom: '32px' }}>
               <div style={{ fontSize: '11px', fontWeight: 'bold', letterSpacing: '0.05em', color: 'color-mix(in srgb, var(--pihu-text) 50%, transparent)', marginBottom: '12px' }}>THEME</div>
-              <GlassCard style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
+              <FrostedCard style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
                 
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                   <div>
@@ -149,13 +149,13 @@ export function SettingsPanel() {
                   </div>
                 </div>
 
-              </GlassCard>
+              </FrostedCard>
             </div>
 
             {/* APPEARANCE SETTINGS Section */}
             <div style={{ marginBottom: '32px' }}>
               <div style={{ fontSize: '11px', fontWeight: 'bold', letterSpacing: '0.05em', color: 'color-mix(in srgb, var(--pihu-text) 50%, transparent)', marginBottom: '12px' }}>APPEARANCE SETTINGS</div>
-              <GlassCard style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
+              <FrostedCard style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
                 
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                   <div style={{ flex: 1 }}>
@@ -271,13 +271,13 @@ export function SettingsPanel() {
                   </div>
                 </div>
 
-              </GlassCard>
+              </FrostedCard>
             </div>
 
             {/* WALLPAPER Section */}
             <div>
               <div style={{ fontSize: '11px', fontWeight: 'bold', letterSpacing: '0.05em', color: 'color-mix(in srgb, var(--pihu-text) 50%, transparent)', marginBottom: '12px' }}>WALLPAPER</div>
-              <GlassCard style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+              <FrostedCard style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
                     <div style={{ width: '80px', height: '50px', borderRadius: 'var(--pihu-radius-sm)', background: currentTheme.wallpaper?.source === 'transparent' ? 'var(--pihu-bg)' : `url(${currentTheme.wallpaper?.source}) center/cover`, display: 'flex', alignItems: 'center', justifyContent: 'center', border: '1px solid var(--pihu-border)', overflow: 'hidden' }}>
@@ -332,7 +332,7 @@ export function SettingsPanel() {
                     );
                   })}
                 </div>
-              </GlassCard>
+              </FrostedCard>
             </div>
 
           </div>
@@ -357,7 +357,7 @@ export function SettingsPanel() {
             {/* KEYBINDINGS Section */}
             <div>
               <div style={{ fontSize: '11px', fontWeight: 'bold', letterSpacing: '0.05em', color: 'color-mix(in srgb, var(--pihu-text) 50%, transparent)', marginBottom: '12px' }}>KEYBINDINGS</div>
-              <GlassCard style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
+              <FrostedCard style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
                 <div style={{ fontWeight: 'bold', color: 'var(--pihu-text)', borderBottom: '1px solid var(--pihu-border)', paddingBottom: '8px' }}>Action</div>
                 <div style={{ fontWeight: 'bold', color: 'var(--pihu-text)', borderBottom: '1px solid var(--pihu-border)', paddingBottom: '8px' }}>Keybinding</div>
                 
@@ -369,7 +369,7 @@ export function SettingsPanel() {
                     </div>
                   </React.Fragment>
                 ))}
-              </GlassCard>
+              </FrostedCard>
             </div>
 
           </div>
@@ -389,19 +389,19 @@ export function SettingsPanel() {
               {/* BUTTONS */}
               <div>
                 <div style={{ fontSize: '11px', fontWeight: 'bold', letterSpacing: '0.05em', color: 'color-mix(in srgb, var(--pihu-text) 50%, transparent)', marginBottom: '12px' }}>BUTTONS</div>
-                <Card variant="secondary" style={{ display: 'flex', gap: '16px', flexWrap: 'wrap' }}>
+                <FrostedCard style={{ display: 'flex', gap: '16px', flexWrap: 'wrap' }}>
                   <Button variant="primary">Primary Button</Button>
                   <Button variant="secondary">Secondary Button</Button>
                   <Button variant="ghost">Ghost Button</Button>
                   <Button variant="danger">Danger Button</Button>
                   <Button variant="icon"><Component size={16} /></Button>
-                </Card>
+                </FrostedCard>
               </div>
 
               {/* INPUTS */}
               <div>
                 <div style={{ fontSize: '11px', fontWeight: 'bold', letterSpacing: '0.05em', color: 'color-mix(in srgb, var(--pihu-text) 50%, transparent)', marginBottom: '12px' }}>INPUTS & CONTROLS</div>
-                <Card variant="secondary" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
+                <FrostedCard style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
                   <Input placeholder="Default Input" />
                   <Input placeholder="Search..." leftIcon={<Search size={16} />} />
                   <Select options={[{ label: 'Option 1', value: '1' }, { label: 'Option 2', value: '2' }]} />
@@ -411,26 +411,26 @@ export function SettingsPanel() {
                     <Checkbox checked />
                     <Checkbox indeterminate />
                   </div>
-                </Card>
+                </FrostedCard>
               </div>
 
               {/* BADGES & CHIPS */}
               <div>
                 <div style={{ fontSize: '11px', fontWeight: 'bold', letterSpacing: '0.05em', color: 'color-mix(in srgb, var(--pihu-text) 50%, transparent)', marginBottom: '12px' }}>BADGES & CHIPS</div>
-                <Card variant="secondary" style={{ display: 'flex', gap: '16px', flexWrap: 'wrap' }}>
+                <FrostedCard style={{ display: 'flex', gap: '16px', flexWrap: 'wrap' }}>
                   <Badge variant="new">New</Badge>
                   <Badge variant="pro">Pro</Badge>
                   <Badge variant="success">Success</Badge>
                   <Badge variant="error">Error</Badge>
                   <Chip variant="default" onDelete={() => {}}>Design</Chip>
                   <Chip variant="outline" onDelete={() => {}}>Development</Chip>
-                </Card>
+                </FrostedCard>
               </div>
 
               {/* TABS & AVATARS */}
               <div>
                 <div style={{ fontSize: '11px', fontWeight: 'bold', letterSpacing: '0.05em', color: 'color-mix(in srgb, var(--pihu-text) 50%, transparent)', marginBottom: '12px' }}>TABS & AVATARS</div>
-                <Card variant="secondary" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '16px' }}>
+                <FrostedCard style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '16px' }}>
                   <Tabs tabs={[{ id: '1', label: 'Overview' }, { id: '2', label: 'Analytics' }]} activeTab="1" onChange={() => {}} />
                   <AvatarGroup max={3}>
                     <Avatar fallback="MJ" status="online" />
@@ -438,20 +438,20 @@ export function SettingsPanel() {
                     <Avatar fallback="PO" status="away" />
                     <Avatar fallback="XX" />
                   </AvatarGroup>
-                </Card>
+                </FrostedCard>
               </div>
 
               {/* PROGRESS */}
               <div>
                 <div style={{ fontSize: '11px', fontWeight: 'bold', letterSpacing: '0.05em', color: 'color-mix(in srgb, var(--pihu-text) 50%, transparent)', marginBottom: '12px' }}>PROGRESS</div>
-                <Card variant="secondary" style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
+                <FrostedCard style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
                   <ProgressBar value={75} />
                   <ProgressBar indeterminate />
                   <div style={{ display: 'flex', gap: '24px' }}>
                     <ProgressRing value={75} />
                     <ProgressRing value={45} color="#10b981" />
                   </div>
-                </Card>
+                </FrostedCard>
               </div>
 
             </div>

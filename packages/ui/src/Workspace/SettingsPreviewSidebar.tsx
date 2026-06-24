@@ -8,7 +8,7 @@ export function SettingsPreviewSidebar() {
   const layout = workspace?.centerLayout;
 
   const isSettingsMaximized = !!maximizedPanelId;
-  const isOnlyPanel = layout?.type === 'panel' && layout.tabs.length === 1;
+  const isOnlyPanel = layout?.type === 'panel';
   const showPreviews = isSettingsMaximized || isOnlyPanel;
 
   return (

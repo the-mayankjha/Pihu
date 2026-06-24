@@ -69,6 +69,16 @@ function PanelRenderer({ node }: { node: PanelNode }) {
   
   const currentTheme = themes[activeThemeId];
   const isActive = activePanelId === node.id;
+  const isEmpty = node.tabs.length === 1 && node.tabs[0] === 'Empty';
+
+  if (isEmpty) {
+    return (
+      <div 
+        onClick={() => setActivePanel(node.id)}
+        style={{ width: "100%", height: "100%", background: "transparent" }}
+      />
+    );
+  }
 
   const showActiveBorder = currentTheme?.glass?.activePanelBorder ?? true;
   const activeBorderOpacity = currentTheme?.glass?.activePanelBorderOpacity ?? 1.0;
@@ -81,17 +91,19 @@ function PanelRenderer({ node }: { node: PanelNode }) {
     <div 
       className={`pihu-glass-level-2 ${isActive ? 'is-active' : ''}`}
       onClick={() => setActivePanel(node.id)}
-      style={{ padding: "16px", height: "100%", color: "var(--pihu-text)", border: `1px solid ${borderColor}`, borderRadius: "var(--pihu-radius-md)", boxSizing: "border-box", display: "flex", flexDirection: "column", transition: 'border-color 0.3s ease' }}
+      style={{ padding: 0, height: "100%", color: "var(--pihu-text)", border: `1px solid ${borderColor}`, borderRadius: "var(--pihu-radius-md)", boxSizing: "border-box", display: "flex", flexDirection: "column", transition: 'border-color 0.3s ease', overflow: "hidden" }}
     >
-      <div style={{ borderBottom: "1px solid var(--pihu-border)", paddingBottom: "8px", marginBottom: "8px", fontWeight: "bold", display: "flex", gap: "8px" }}>
-        {node.tabs.map(tab => (
-          <span key={tab} style={{ color: tab === node.activeTab ? 'var(--pihu-primary)' : 'var(--pihu-text)', opacity: tab === node.activeTab ? 1 : 0.6, cursor: 'pointer' }}>
-            {tab}
-          </span>
-        ))}
-      </div>
-      <div style={{ flex: 1, display: "flex", alignItems: "center", justifyContent: "center", overflow: 'hidden' }}>
-        {node.activeTab === 'settings' ? <SettingsPanel /> : 'Panel Content'}
+      {node.titleless === false && (
+        <div style={{ borderBottom: "1px solid var(--pihu-border)", padding: "16px 16px 8px 16px", fontWeight: "bold", display: "flex", gap: "8px", flexShrink: 0 }}>
+          {node.tabs.filter(tab => !(tab === 'Empty' && node.tabs.length > 1)).map(tab => (
+            <span key={tab} style={{ color: tab === node.activeTab ? 'var(--pihu-primary)' : 'var(--pihu-text)', opacity: tab === node.activeTab ? 1 : 0.6, cursor: 'pointer' }}>
+              {tab.charAt(0).toUpperCase() + tab.slice(1)}
+            </span>
+          ))}
+        </div>
+      )}
+      <div style={{ flex: 1, display: "flex", flexDirection: "column", overflow: 'hidden' }}>
+        {node.activeTab === 'settings' ? <SettingsPanel /> : <div style={{ padding: "16px" }}>Panel Content</div>}
       </div>
     </div>
   );

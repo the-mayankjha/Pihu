@@ -17,4 +17,5 @@ export interface PanelNode {
   id: string;
   tabs: string[];
   activeTab: string;
+  titleless?: boolean;
 }

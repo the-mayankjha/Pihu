@@ -1,4 +1,5 @@
 export * from './GlassCard';
+export * from './FrostedCard';
 export * from './Select';
 export * from './Slider';
 export * from './Checkbox';
