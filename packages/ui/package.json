@@ -3,6 +3,10 @@
   "version": "1.0.0",
   "main": "src/index.tsx",
   "dependencies": {
-    "@pihu/types": "workspace:*"
+    "@pihu/layout-engine": "workspace:*",
+    "@pihu/theme": "workspace:*",
+    "@pihu/types": "workspace:*",
+    "react": "^19.2.7",
+    "react-dom": "^19.2.7"
   }
 }

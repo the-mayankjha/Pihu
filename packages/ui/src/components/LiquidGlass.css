@@ -1,0 +1,30 @@
+.liquid-glass-container {
+  position: relative;
+  border-radius: var(--pihu-radius-md);
+  border: 1px solid color-mix(in srgb, var(--pihu-border) 30%, transparent);
+  
+  /* Solid tint with subtle gradient */
+  background: linear-gradient(
+    135deg,
+    color-mix(in srgb, var(--pihu-surface) 40%, transparent) 0%,
+    color-mix(in srgb, var(--pihu-surface) 20%, transparent) 50%,
+    color-mix(in srgb, var(--pihu-surface) 10%, transparent) 100%
+  );
+
+  /* The magic crystal distortion */
+  backdrop-filter: url(#liquid-glass-filter);
+  -webkit-backdrop-filter: url(#liquid-glass-filter);
+  
+  /* Inner shine */
+  box-shadow: inset 1px 1px 1px 0 rgba(255, 255, 255, 0.1),
+    inset -1px -1px 1px 1px rgba(255, 255, 255, 0.05);
+
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 2.2);
+  overflow: hidden;
+}
+
+.liquid-glass-container:hover {
+  border-color: color-mix(in srgb, var(--pihu-primary) 50%, transparent);
+  box-shadow: 0 4px 20px color-mix(in srgb, var(--pihu-primary) 20%, transparent),
+              inset 1px 1px 1px 0 rgba(255, 255, 255, 0.2);
+}

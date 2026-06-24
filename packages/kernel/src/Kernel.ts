@@ -1,6 +1,6 @@
-import { EventBus } from "./event-bus";
-import { CommandBus } from "./command-bus";
-import { ServiceRegistry } from "./services";
+import type { EventBus } from "./event-bus";
+import type { CommandBus } from "./command-bus";
+import type { ServiceRegistry } from "./services";
 
 export class Kernel {
   events: EventBus;

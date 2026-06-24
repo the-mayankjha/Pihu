@@ -1,5 +1,8 @@
 {
   "name": "@pihu/theme",
   "version": "1.0.0",
-  "main": "src/index.ts"
+  "main": "src/index.ts",
+  "dependencies": {
+    "zustand": "^5.0.0-rc.2"
+  }
 }

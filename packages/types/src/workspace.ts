@@ -4,5 +4,8 @@ export interface Workspace {
   id: string;
   name: string;
   icon: string;
-  rootLayout: LayoutNode;
+  intent?: string; // Information for LLMs regarding the purpose of this workspace
+  leftLayout?: LayoutNode;
+  centerLayout: LayoutNode;
+  rightLayout?: LayoutNode;
 }

@@ -1,0 +1,218 @@
+.music-card {
+  position: relative;
+  width: 100%;
+  height: 160px;
+  border-radius: var(--pihu-radius-lg, 24px);
+  display: flex;
+  justify-content: center;
+  padding: 1rem;
+  overflow: hidden;
+}
+
+.music-bar {
+  position: absolute;
+  width: 90%;
+  height: 50px;
+  padding: 0.5rem;
+  background: color-mix(in srgb, var(--pihu-surface) 15%, transparent);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border-radius: 30px;
+  border: 1px solid color-mix(in srgb, var(--pihu-border) 18%, transparent);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.music {
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  background: rgba(149, 0, 255, 0.25);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border-radius: 12px;
+  border: 1px solid color-mix(in srgb, var(--pihu-border) 18%, transparent);
+  cursor: pointer;
+}
+.music::after {
+  content: "Uiverse Anthem";
+  position: absolute;
+  left: 45px;
+  width: 130px;
+  color: var(--pihu-text);
+  font-weight: 600;
+  font-size: 14px;
+}
+.music::before {
+  content: "NKS";
+  position: absolute;
+  bottom: 0;
+  left: 45px;
+  width: 125px;
+  color: color-mix(in srgb, var(--pihu-text) 80%, transparent);
+  font-size: 0.7rem;
+  font-weight: 400;
+  letter-spacing: 1px;
+}
+
+.music-control {
+  position: absolute;
+  right: 0;
+  border-radius: 30px;
+  width: 30%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+}
+.music-control svg {
+  cursor: pointer;
+  fill: var(--pihu-text);
+}
+.music-control svg:active {
+  transform: scale(0.9);
+}
+
+.bottom-bar {
+  position: absolute;
+  bottom: 10px;
+  width: 100%;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 10px;
+}
+
+.nav-bar {
+  width: 70%;
+  height: 50px;
+  padding: 6px;
+  background: color-mix(in srgb, var(--pihu-surface) 15%, transparent);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border-radius: 30px;
+  border: 1px solid color-mix(in srgb, var(--pihu-border) 18%, transparent);
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+}
+.nav-icons {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 25%;
+  padding: 4px;
+  border-radius: 30px;
+  cursor: pointer;
+  transition: all 0.1s ease-in-out;
+}
+.nav-icons:hover {
+  background-color: color-mix(in srgb, var(--pihu-surface) 15%, transparent);
+}
+.nav-icons svg {
+  transition: all 0.1s ease-in-out;
+  fill: var(--pihu-text);
+  width: 24px;
+  height: 24px;
+}
+.nav-icons:hover svg {
+  transform: translateY(-2px);
+}
+.nav-icons svg:active {
+  transform: scale(0.9);
+}
+
+.search-bar {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--pihu-surface) 15%, transparent);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid color-mix(in srgb, var(--pihu-border) 18%, transparent);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.1s ease-in-out;
+}
+.search-bar:hover {
+  transform: translateY(-2px);
+}
+.search-bar svg {
+  transition: all 0.1s ease-in-out;
+  transition-delay: 0.1s;
+  stroke: var(--pihu-text);
+  width: 24px;
+  height: 24px;
+}
+.search-bar:hover svg {
+  transform: translateY(-2px);
+}
+.search-bar svg:active {
+  transform: scale(0.9);
+}
+
+/* Background Shapes */
+.music-shapes {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  inset: 0;
+}
+
+.music-triangle {
+  position: absolute;
+  top: 10%;
+  left: 10%;
+  width: 60px;
+  height: 60px;
+  transform: rotate(-45deg);
+  animation: move 12s linear infinite;
+}
+
+.music-circle {
+  position: absolute;
+  top: 30%;
+  right: 20%;
+  width: 50px;
+  height: 50px;
+  background-color: #c436eb;
+  border-radius: 50%;
+  animation: move 12s linear infinite;
+  animation-delay: 2s;
+}
+
+.music-square {
+  position: absolute;
+  bottom: 20%;
+  right: 50%;
+  width: 40px;
+  height: 40px;
+  background-color: #def92e;
+  border-radius: 12px;
+  transform: rotate(45deg);
+  animation: move 12s alternate-reverse infinite;
+  animation-delay: 6s;
+}
+
+@keyframes move {
+  from,
+  to {
+    transform: rotate(-45deg);
+  }
+  25%,
+  75% {
+    transform: translateX(15px) translateY(5px) rotate(30deg);
+  }
+  50% {
+    transform: translateX(30px) translateY(10px);
+  }
+}

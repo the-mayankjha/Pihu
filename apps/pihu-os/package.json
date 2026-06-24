@@ -13,9 +13,14 @@
   "dependencies": {
     "@pihu/types": "workspace:*",
     "@pihu/ui": "workspace:*",
-    "@tauri-apps/api": "^2.11.1",
-    "react": "^19.2.7",
-    "react-dom": "^19.2.7",
+    "@pihu/layout-engine": "workspace:*",
+    "@pihu/keybinding-engine": "workspace:*",
+    "@pihu/kernel": "workspace:*",
+    "@pihu/theme": "workspace:*",
+    "@tauri-apps/api": "^2",
+    "@tauri-apps/plugin-shell": "^2",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
     "react-resizable-panels": "^4.11.2"
   },
   "devDependencies": {
