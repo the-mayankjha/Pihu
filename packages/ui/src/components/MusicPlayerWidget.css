@@ -11,7 +11,7 @@
 
 .music-bar {
   position: absolute;
-  width: 90%;
+  width: calc(100% - 32px);
   height: 50px;
   padding: 0.5rem;
   background: color-mix(in srgb, var(--pihu-surface) 15%, transparent);
@@ -23,10 +23,12 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 8px;
 }
 
 .music {
-  position: absolute;
+  position: relative;
+  min-width: 40px;
   width: 40px;
   height: 40px;
   background: rgba(149, 0, 255, 0.25);
@@ -36,37 +38,41 @@
   border-radius: 12px;
   border: 1px solid color-mix(in srgb, var(--pihu-border) 18%, transparent);
   cursor: pointer;
+  display: flex;
+  flex-direction: column;
 }
-.music::after {
-  content: "Uiverse Anthem";
-  position: absolute;
-  left: 45px;
-  width: 130px;
+.music-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  flex: 1;
+  overflow: hidden;
+  white-space: nowrap;
+}
+.music-info .title {
   color: var(--pihu-text);
   font-weight: 600;
-  font-size: 14px;
+  font-size: 13px;
+  text-overflow: ellipsis;
+  overflow: hidden;
 }
-.music::before {
-  content: "NKS";
-  position: absolute;
-  bottom: 0;
-  left: 45px;
-  width: 125px;
+.music-info .artist {
   color: color-mix(in srgb, var(--pihu-text) 80%, transparent);
-  font-size: 0.7rem;
+  font-size: 0.65rem;
   font-weight: 400;
   letter-spacing: 1px;
+  text-overflow: ellipsis;
+  overflow: hidden;
 }
 
 .music-control {
-  position: absolute;
-  right: 0;
   border-radius: 30px;
-  width: 30%;
+  min-width: 60px;
   height: 100%;
   display: flex;
   align-items: center;
-  justify-content: space-evenly;
+  justify-content: flex-end;
+  gap: 12px;
 }
 .music-control svg {
   cursor: pointer;
@@ -79,16 +85,16 @@
 .bottom-bar {
   position: absolute;
   bottom: 10px;
-  width: 100%;
+  width: calc(100% - 20px);
   height: 60px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 10px;
+  gap: 8px;
 }
 
 .nav-bar {
-  width: 70%;
+  flex: 1;
   height: 50px;
   padding: 6px;
   background: color-mix(in srgb, var(--pihu-surface) 15%, transparent);
@@ -128,6 +134,7 @@
 }
 
 .search-bar {
+  min-width: 50px;
   width: 50px;
   height: 50px;
   border-radius: 50%;

@@ -36,7 +36,7 @@ export function Select({ options, value, onChange, placeholder = 'Select an opti
     <div 
       ref={containerRef}
       className={className}
-      style={{ position: 'relative', display: 'inline-block', width: '100%', minWidth: '200px', opacity: disabled ? 0.5 : 1, ...style }}
+      style={{ position: 'relative', display: 'inline-block', width: '100%', minWidth: '0', opacity: disabled ? 0.5 : 1, ...style }}
     >
       <button
         type="button"

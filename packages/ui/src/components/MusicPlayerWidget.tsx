@@ -16,6 +16,10 @@ export function MusicPlayerWidget() {
       
       <div className="music-bar">
         <div className="music"></div>
+        <div className="music-info">
+          <div className="title">Uiverse Anthem</div>
+          <div className="artist">NKS</div>
+        </div>
         <div className="music-control">
           <svg viewBox="0 0 28 28" height="20px" width="20px">
             <path d="M21.415,12.554 L2.418,0.311 C1.291,-0.296 0,-0.233 0,1.946 L0,26.054 C0,28.046 1.385,28.36 2.418,27.689 L21.415,15.446 C22.197,14.647 22.197,13.353 21.415,12.554" transform="translate(3, 0)"></path>
