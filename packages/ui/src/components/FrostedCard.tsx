@@ -32,10 +32,7 @@ export function FrostedCard({ children, style, className, ...props }: FrostedCar
         // Adding the shadow
         boxShadow: '0 8px 32px 0 rgba(0, 0, 0, 0.18)',
         borderRadius: currentTheme.radius.md || '16px',
-        // Adding our borders with top/left highlights for 3D glass edge
         border: `1px solid rgba(255, 255, 255, ${isDark ? 0.1 : 0.25})`,
-        borderTop: `1px solid rgba(255, 255, 255, ${isDark ? 0.2 : 0.5})`,
-        borderLeft: `1px solid rgba(255, 255, 255, ${isDark ? 0.2 : 0.5})`,
         ...style
       }}
       className={className}

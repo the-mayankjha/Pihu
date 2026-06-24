@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useThemeStore } from '@pihu/theme';
 
 export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   leftIcon?: React.ReactNode;
@@ -9,6 +10,8 @@ export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> 
 export const Input = React.forwardRef<HTMLInputElement, InputProps>(
   ({ className = '', leftIcon, rightIcon, fullWidth = false, style, ...props }, ref) => {
     const [isFocused, setIsFocused] = React.useState(false);
+    const { themes, activeThemeId } = useThemeStore();
+    const isDark = themes[activeThemeId]?.mode === 'dark';
 
     return (
       <div
@@ -17,7 +20,7 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
           display: 'inline-flex',
           alignItems: 'center',
           background: 'color-mix(in srgb, var(--pihu-text) 5%, transparent)',
-          border: isFocused ? '1px solid var(--pihu-primary)' : '1px solid color-mix(in srgb, var(--pihu-text) 10%, transparent)',
+          border: isFocused ? '1px solid var(--pihu-primary)' : `1px solid rgba(255, 255, 255, ${isDark ? 0.1 : 0.25})`,
           borderRadius: 'var(--pihu-radius-md, 8px)',
           padding: '8px 12px',
           width: fullWidth ? '100%' : 'auto',

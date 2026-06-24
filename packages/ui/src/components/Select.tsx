@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { ChevronDown, Check } from 'lucide-react';
+import { useThemeStore } from '@pihu/theme';
 
 export interface SelectOption {
   label: string;
@@ -19,6 +20,11 @@ export interface SelectProps {
 export function Select({ options, value, onChange, placeholder = 'Select an option', className = '', style, disabled }: SelectProps) {
   const [isOpen, setIsOpen] = React.useState(false);
   const containerRef = React.useRef<HTMLDivElement>(null);
+  const { themes, activeThemeId } = useThemeStore();
+  const currentTheme = themes[activeThemeId];
+  const isDark = currentTheme?.mode === 'dark';
+  const alpha = currentTheme?.glass?.[currentTheme.glass.style || 'frost']?.opacity ?? 0.3;
+  const menuBackground = isDark ? `rgba(0, 0, 0, ${alpha})` : `rgba(255, 255, 255, ${alpha})`;
 
   const selectedOption = options.find((opt) => opt.value === value);
 
@@ -51,7 +57,7 @@ export function Select({ options, value, onChange, placeholder = 'Select an opti
           padding: '10px 16px',
           borderRadius: 'var(--pihu-radius-md, 8px)',
           background: 'color-mix(in srgb, var(--pihu-text) 5%, transparent)',
-          border: isOpen ? '1px solid var(--pihu-primary)' : '1px solid color-mix(in srgb, var(--pihu-text) 10%, transparent)',
+          border: isOpen ? '1px solid var(--pihu-primary)' : `1px solid rgba(255, 255, 255, ${isDark ? 0.1 : 0.25})`,
           color: selectedOption ? 'var(--pihu-text)' : 'color-mix(in srgb, var(--pihu-text) 50%, transparent)',
           cursor: disabled ? 'not-allowed' : 'pointer',
           textAlign: 'left',
@@ -75,11 +81,11 @@ export function Select({ options, value, onChange, placeholder = 'Select an opti
             right: 0,
             marginTop: '8px',
             borderRadius: 'var(--pihu-radius-md, 8px)',
-            background: 'color-mix(in srgb, var(--pihu-bg) 80%, transparent)',
-            border: '1px solid color-mix(in srgb, var(--pihu-text) 10%, transparent)',
+            background: menuBackground,
+            border: `1px solid rgba(255, 255, 255, ${isDark ? 0.1 : 0.25})`,
             backdropFilter: 'var(--pihu-glass-filter)',
             WebkitBackdropFilter: 'var(--pihu-glass-filter)',
-            boxShadow: 'var(--pihu-shadow-lg, 0 10px 15px -3px rgba(0,0,0,0.5))',
+            boxShadow: '0 8px 32px 0 rgba(0, 0, 0, 0.18)',
             zIndex: 50,
             maxHeight: '250px',
             overflowY: 'auto',
